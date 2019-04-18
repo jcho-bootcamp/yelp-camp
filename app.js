@@ -18,18 +18,18 @@ let campgroundSchema = new mongoose.Schema({
 
 let Campground = mongoose.model("Campground", campgroundSchema);
 
-Campground.create({
-  name: "Granite Hill",
-  image: "https://farm8.staticflickr.com/7205/7121863467_eb0aa64193.jpg",
-  description: "This is a huge granite hill, no bathroom, no water, beatiful granite!"
-}, (err, campground) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log("Newly Created Campground : ");
-    console.log(campground);
-  }
-});
+// Campground.create({
+//   name: "Granite Hill",
+//   image: "https://farm8.staticflickr.com/7205/7121863467_eb0aa64193.jpg",
+//   description: "This is a huge granite hill, no bathroom, no water, beatiful granite!"
+// }, (err, campground) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log("Newly Created Campground : ");
+//     console.log(campground);
+//   }
+// });
 
 // let campgrounds = [
 //   { name: "Salmon Creek", image: "https://farm7.staticflickr.com/6014/6015893151_044a2af184.jpg" },

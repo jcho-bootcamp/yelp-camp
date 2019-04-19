@@ -54,7 +54,7 @@ app.get("/campgrounds", (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      res.render("campgrounds", { campgrounds: allCampgrounds });
+      res.render("index", { campgrounds: allCampgrounds });
     }
   })
 });
@@ -82,10 +82,19 @@ app.get("/campgrounds/new", (req, res) => {
   res.render("new");
 });
 
+// Show - shows more info about one particular campground
 app.get("/campgrounds/:id", (req, res) => {
   // Find the campground with provided ID
+  Campground.findById(req.params.id, (err, foundCampground) => {
+    if (err) {
+      console.log(err);
+    } else {
+      // Render show template with that campground
+      res.render("show", { campground: foundCampground });
+    }
+  });
   // Render show template with that campground
-  res.send("This will be the show page one day!");
+  res.render("show");
 });
 
 app.listen(3000, () => console.log("Server is listening on Port : 3000"));

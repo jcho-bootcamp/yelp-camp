@@ -62,8 +62,9 @@ app.get("/campgrounds", (req, res) => {
 app.post("/campgrounds", (req, res) => {
   let name = req.body.name;
   let image = req.body.image;
+  let desc = req.body.description;
 
-  let newCampground = { name: name, image: image };
+  let newCampground = { name: name, image: image, description: desc };
 
   // campgrounds.push(newCampground); // No more need of the array, will be moved to a DB
   // Create route - create a new campground and save to DB
@@ -93,8 +94,6 @@ app.get("/campgrounds/:id", (req, res) => {
       res.render("show", { campground: foundCampground });
     }
   });
-  // Render show template with that campground
-  res.render("show");
 });
 
 app.listen(3000, () => console.log("Server is listening on Port : 3000"));

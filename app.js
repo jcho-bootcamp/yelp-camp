@@ -47,7 +47,7 @@ app.get("/", (req, res) => {
 });
 
 
-// Index route - show all campgrounds
+// INDEX route - show all campgrounds
 app.get("/campgrounds", (req, res) => {
   // Get all campgrounds from DB
   Campground.find({}, (err, allCampgrounds) => {
@@ -59,6 +59,7 @@ app.get("/campgrounds", (req, res) => {
   })
 });
 
+// CREATE route - create a new campground and save to DB
 app.post("/campgrounds", (req, res) => {
   let name = req.body.name;
   let image = req.body.image;
@@ -67,7 +68,6 @@ app.post("/campgrounds", (req, res) => {
   let newCampground = { name: name, image: image, description: desc };
 
   // campgrounds.push(newCampground); // No more need of the array, will be moved to a DB
-  // Create route - create a new campground and save to DB
   Campground.create(newCampground, (err, newlyCreated) => {
     if (err) {
       console.log(err);
@@ -78,12 +78,12 @@ app.post("/campgrounds", (req, res) => {
   })
 });
 
-// New route - show form to create new campground
+// NEW route - show form to create new campground
 app.get("/campgrounds/new", (req, res) => {
   res.render("new");
 });
 
-// Show - shows more info about one particular campground
+// SHOW route - shows more info about one particular campground
 app.get("/campgrounds/:id", (req, res) => {
   // Find the campground with provided ID
   Campground.findById(req.params.id, (err, foundCampground) => {

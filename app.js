@@ -82,10 +82,11 @@ app.get("/campgrounds/new", (req, res) => {
 // SHOW route - shows more info about one particular campground
 app.get("/campgrounds/:id", (req, res) => {
   // Find the campground with provided ID
-  Campground.findById(req.params.id, (err, foundCampground) => {
+  Campground.findById(req.params.id).populate("comments").exec((err, foundCampground) => {
     if (err) {
       console.log(err);
     } else {
+      console.log(foundCampground);
       // Render show template with that campground
       res.render("show", { campground: foundCampground });
     }

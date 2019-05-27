@@ -4,14 +4,33 @@ const express = require("express"),
   mongoose = require("mongoose"),
   Campground = require("./models/campground"),
   seedDB = require("./seeds"),
-  Comment = require("./models/comment");
+  Comment = require("./models/comment"),
+  passport = require("passport"),
+  localStrategy = require("passport-local"),
+  User = require("./models/user");
 
 seedDB();
+
+// PASSPORT CONFIGURATION
+app.use(require("express-session")({
+  secret: "Once again Rust wins cutest dog!",
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(function (req, res, next) {
+  res.locals.currentUser = req.user;
+  next();
+});
 
 mongoose.connect("mongodb://localhost/yelp_camp", { useNewUrlParser: true });
 
@@ -86,7 +105,6 @@ app.get("/campgrounds/:id", (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      console.log(foundCampground);
       // Render show template with that campground
       res.render("campgrounds/show", { campground: foundCampground });
     }
@@ -97,7 +115,7 @@ app.get("/campgrounds/:id", (req, res) => {
 // COMMENTS ROUTES
 // ==========================
 
-app.get("/campgrounds/:id/comments/new", (req, res) => {
+app.get("/campgrounds/:id/comments/new", isLoggedIn, (req, res) => {
   Campground.findById(req.params.id, (err, campground) => {
     if (err) {
       console.log(err);
@@ -107,7 +125,7 @@ app.get("/campgrounds/:id/comments/new", (req, res) => {
   });
 });
 
-app.post("/campgrounds/:id/comments", (req, res) => {
+app.post("/campgrounds/:id/comments", isLoggedIn, (req, res) => {
   // Lookup campground using ID
   Campground.findById(req.params.id, (err, campground) => {
     if (err) {
@@ -120,15 +138,63 @@ app.post("/campgrounds/:id/comments", (req, res) => {
         if (err) {
           console.log(err);
         } else {
+          // Connect new comment to campground
           campground.comments.push(comment);
           campground.save();
+          // Redirect to campground show page
           res.redirect("/campgrounds/" + campground._id);
         }
       });
-      // Connect new comment to campground
-      // Redirect to campground show page
     }
   });
 });
+
+// ==========================
+// AUTHENTICATION ROUTES
+// ==========================
+
+// Show register form
+app.get("/register", (req, res) => {
+  res.render("register");
+});
+
+// Handle sign up logic
+app.post("/register", (req, res) => {
+  let newUser = new User({ username: req.body.username })
+  User.register(newUser, req.body.password, (err, user) => {
+    if (err) {
+      console.log(err);
+      return res.render("register");
+    }
+    passport.authenticate("local")(req, res, () => {
+      res.redirect("/campgrounds");
+    });
+  });
+});
+
+// Show login form
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+
+// Handling login logic
+app.post("/login", passport.authenticate("local",
+  {
+    successRedirect: "/campgrounds",
+    failureRedirect: "/login"
+  }), (req, res) => { });
+
+// Logout route
+app.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/campgrounds");
+});
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/login");
+}
 
 app.listen(3000, () => console.log("Server is listening on Port : 3000"));

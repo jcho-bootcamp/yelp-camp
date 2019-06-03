@@ -14,7 +14,7 @@ const campgroundRoutes = require("./routes/campgrounds"),
   commentRoutes = require("./routes/comments"),
   indexRoutes = require("./routes/index");
 
-seedDB();
+// seedDB(); // Seed the database
 
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({

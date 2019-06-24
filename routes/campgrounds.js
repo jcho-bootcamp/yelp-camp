@@ -107,15 +107,15 @@ function checkCampgroundOwnership(req, res, next) {
         if (foundCampground.author.id.equals(req.user._id)) {
           next();
         } else {
+          // Otherwise redirect
           res.redirect("back");
         }
       }
     });
   } else {
+    // If not, redirect
     res.redirect("back");
   }
-  // Otherwise redirect
-  // If not, redirect
 }
 
 module.exports = router;

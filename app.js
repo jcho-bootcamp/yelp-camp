@@ -2,6 +2,7 @@ const express = require("express"),
   app = express(),
   bodyParser = require("body-parser"),
   mongoose = require("mongoose"),
+  flash = require("connect-flash"),
   Campground = require("./models/campground"),
   seedDB = require("./seeds"),
   Comment = require("./models/comment"),
@@ -33,6 +34,7 @@ app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.use(flash());
 
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;

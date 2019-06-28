@@ -18,6 +18,9 @@ const campgroundRoutes = require("./routes/campgrounds"),
 
 // seedDB(); // Seed the database
 
+// Flash messages
+app.use(flash());
+
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
   secret: "Once again Rust wins cutest dog!",
@@ -34,10 +37,12 @@ app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-app.use(flash());
 
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
+  // Flash accessible on every template
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
   next();
 });
 

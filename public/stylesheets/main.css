@@ -7,15 +7,15 @@ body {
 /* Landing Page */
 /* =========================================== */
 
-#landing {
+/* #landing {
   height: 85vh;
-}
+} */
 
 /* =========================================== */
 /* Landing & Index Jumbotron */
 /* =========================================== */
 
-.jumbotron {
+/* .jumbotron {
   background: url("https://images.unsplash.com/photo-1450849608880-6f787542c88a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1566&q=80") no-repeat center;
   background-size: cover;
   height: 60vh;
@@ -27,7 +27,7 @@ body {
   position: relative;
   top: 50%;
   transform: translateY(-50%);
-}
+} */
 
 /* =========================================== */
 /* Index Page */

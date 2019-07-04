@@ -25,6 +25,7 @@ router.get("/", (req, res) => {
 // CREATE route - create a new campground and save to DB
 router.post("/", middleware.isLoggedIn, (req, res) => {
   let name = req.body.name;
+  var price = req.body.price;
   let image = req.body.image;
   let desc = req.body.description;
   let author = {
@@ -32,7 +33,7 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
     username: req.user.username
   }
 
-  let newCampground = { name: name, image: image, description: desc, author: author };
+  let newCampground = { name: name, price: price, image: image, description: desc, author: author };
 
   // campgrounds.push(newCampground); // No more need of the array, will be moved to a DB
   Campground.create(newCampground, (err, newlyCreated) => {

@@ -15,7 +15,7 @@
         <img class="image-responsive" src="<%= campground.image %>">
         <div class="caption">
           <div class="caption-full">
-            <h4 class="pull-right">$9.00/Night</h4>
+            <h4 class="pull-right">$<%= campground.price %>/Night</h4>
             <h4><a><%= campground.name %></a></h4>
             <p><%= campground.description %></p>
             <p>Submitted By : <strong><%= campground.author.username %></strong></p>

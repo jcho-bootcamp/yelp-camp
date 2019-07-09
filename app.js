@@ -76,4 +76,4 @@ mongoose.connect("mongodb + srv://jcho0627:KX0JrmAChaqo63Z@cluster0-y4ipg.mongod
 //   { name: "Mountain Goat's Rest", image: "https://farm5.staticflickr.com/4044/4175370953_5488caf554.jpg" }
 // ];
 
-app.listen(3000, () => console.log("Server is listening on Port : 3000"));
+app.listen(process.env.PORT || 3000, () => console.log("Server is listening on Port : 3000"));

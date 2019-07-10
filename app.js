@@ -50,7 +50,10 @@ app.use("/", indexRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 app.use("/campgrounds", campgroundRoutes);
 
-mongoose.connect("mongodb+srv://jcho0627:KX0JrmAChaqo63Z@cluster0-y4ipg.mongodb.net/yelp_camp_v12?retryWrites=true&w=majority");
+console.log(process.env.DATABASEURL);
+
+mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true });
+// mongoose.connect("mongodb+srv://jcho0627:KX0JrmAChaqo63Z@cluster0-y4ipg.mongodb.net/yelp_camp_v12?retryWrites=true&w=majority", { useNewUrlParser: true });
 
 // Campground.create({
 //   name: "Granite Hill",
